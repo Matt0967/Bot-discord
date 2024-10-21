@@ -10,7 +10,9 @@ intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Commande slash pour la multiplication
-
+@bot.tree.command(name="multiplication")
+async def multiplication(interaction: discord.Interaction, a: int, b: int):
+    await interaction.response.send_message(f"Le résultat de {a} x {b} est {a * b}")
 
 # Commande slash pour afficher une citation aléatoire
 @bot.tree.command(name="citation")
