@@ -18,8 +18,9 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-def main():
-    bot.run(token)
+async def main():
+    await bot.start(token)
 
 if __name__ == '__main__':
-    main()
+    import asyncio
+    asyncio.run(main())
