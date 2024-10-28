@@ -7,10 +7,6 @@ token = "MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-@bot.tree.command(name="multiplication")
-async def multiplication(interaction: discord.Interaction, a: int, b: int):
-    await interaction.response.send_message(f"Le résultat de {a} x {b} est {a * b}")
-
 
 @bot.tree.command(name="citation")
 async def citation(interaction: discord.Interaction):
