@@ -4,8 +4,8 @@ Bienvenue dans le projet de mon bot Discord ! Ce bot est conçu pour aides les p
 
 ## 📋 Fonctionnalités
 
-- 🎉 [Fonctionnalité 1]
-- 💬 [Fonctionnalité 2]
+- 🦾 des citation motivante 
+- 🎧 un timer pomodoro
 - 🎮 [Fonctionnalité 3]
 - [Ajoutez d'autres fonctionnalités selon les besoins]
 
@@ -39,13 +39,6 @@ Pour démarrer le bot, exécutez :
 ```
 npm start
 ```
-
-## 📜 Commandes
-
-- `!help` : Affiche la liste des commandes disponibles
-- `!commande1` : [Description de la commande 1]
-- `!commande2` : [Description de la commande 2]
-- [Ajoutez d'autres commandes selon les besoins]
 
 ## 🤝 Contribution
 
