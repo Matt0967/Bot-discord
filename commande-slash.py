@@ -11,37 +11,36 @@ intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
- 
 @bot.tree.command(name="pomodoro")
 async def pomodoro(interaction: discord.Interaction):
-    # Envoyer un message initial pour confirmer que l'interaction est en cours de traitement
-    await interaction.response.send_message("Veuillez choisir un timer Pomodoro...", ephemeral=True)
+    # Envoie une réponse initiale avec les boutons
+    await interaction.response.send_message("Choisissez votre timer Pomodoro :", ephemeral=True)
 
     # Création des boutons pour le choix
     class PomodoroView(ui.View):
         def __init__(self):
             super().__init__()
-            self.choice = None  # Initialise la variable de choix de l'utilisateur
+            self.choice = None  # Variable pour stocker le choix de l'utilisateur
 
         @ui.button(label="25-5", style=ButtonStyle.primary)
-        async def pomodoro_25(self, button: ui.Button, interaction: discord.Interaction):
+        async def pomodoro_25(self, button: ui.Button, button_interaction: discord.Interaction):
             self.choice = (25, 5)
-            await interaction.response.send_message("Vous avez choisi le Pomodoro 25-5. Travaillez pendant 25 minutes.", ephemeral=True)
-            self.stop()
+            await button_interaction.response.send_message("Vous avez choisi le Pomodoro 25-5. Travaillez pendant 25 minutes.", ephemeral=True)
+            self.stop()  # Arrête l'attente pour les choix
 
         @ui.button(label="50-10", style=ButtonStyle.primary)
-        async def pomodoro_50(self, button: ui.Button, interaction: discord.Interaction):
+        async def pomodoro_50(self, button: ui.Button, button_interaction: discord.Interaction):
             self.choice = (50, 10)
-            await interaction.response.send_message("Vous avez choisi le Pomodoro 50-10. Travaillez pendant 50 minutes.", ephemeral=True)
-            self.stop()
+            await button_interaction.response.send_message("Vous avez choisi le Pomodoro 50-10. Travaillez pendant 50 minutes.", ephemeral=True)
+            self.stop()  # Arrête l'attente pour les choix
 
     view = PomodoroView()
-    # Envoyer un message avec les boutons pour le choix
-    await interaction.followup.send("Choisissez votre timer Pomodoro :", view=view)
+    # Afficher les boutons dans le message initial pour éviter l'expiration
+    await interaction.edit_original_response(content="Choisissez votre timer Pomodoro :", view=view)
     await view.wait()  # Attend la réponse de l'utilisateur
 
     if view.choice is None:
-        return await interaction.followup.send("Vous n'avez pas fait de choix. Veuillez réessayer.")
+        return await interaction.followup.send("Vous n'avez pas fait de choix. Veuillez réessayer.", ephemeral=True)
 
     work_time, break_time = view.choice
 
@@ -52,11 +51,12 @@ async def pomodoro(interaction: discord.Interaction):
 
     # Lancer le timer de travail
     await timer(work_time, "le temps de travail")
-    await interaction.followup.send("Travail terminé ! Prenez une pause.")
+    await interaction.followup.send("Travail terminé ! Prenez une pause.", ephemeral=True)
 
     # Lancer le timer de pause
     await timer(break_time, "le temps de pause")
-    await interaction.followup.send("Pause terminée ! Reprenez quand vous êtes prêt.")
+    await interaction.followup.send("Pause terminée ! Reprenez quand vous êtes prêt.", ephemeral=True)
+
 
 @bot.tree.command(name="citation")
 async def citation(interaction: discord.Interaction):
@@ -76,7 +76,6 @@ async def citation(interaction: discord.Interaction):
         "Vous ne pouvez pas changer votre passé, mais vous pouvez ruiner le présent en vous inquiétant de l'avenir – Anonyme"
         "Les difficultés préparent les gens ordinaires à un destin extraordinaire – C.S. Lewis"
         "Le courage n'est pas l'absence de peur, mais la capacité de vaincre ce qui fait peur – Nelson Mandela"
-
     ]
     quote = random.choice(quotes)
     await interaction.response.send_message(quote)
