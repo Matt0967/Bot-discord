@@ -11,52 +11,98 @@ intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
-@bot.tree.command(name="pomodoro")
+@bot.tree.command(name="pomodoro", description="Démarrer un timer Pomodoro")
 async def pomodoro(interaction: discord.Interaction):
-    # Envoie une réponse initiale avec les boutons
-    await interaction.response.send_message("Choisissez votre timer Pomodoro :", ephemeral=True)
-
-    # Création des boutons pour le choix
     class PomodoroView(ui.View):
         def __init__(self):
-            super().__init__()
-            self.choice = None  # Variable pour stocker le choix de l'utilisateur
+            super().__init__(timeout=180)  # Timeout de 3 minutes
+            self.choice = None
 
         @ui.button(label="25-5", style=ButtonStyle.primary)
         async def pomodoro_25(self, button: ui.Button, button_interaction: discord.Interaction):
             self.choice = (25, 5)
-            await button_interaction.response.send_message("Vous avez choisi le Pomodoro 25-5. Travaillez pendant 25 minutes.", ephemeral=True)
-            self.stop()  # Arrête l'attente pour les choix
+            # Désactiver tous les boutons après le choix
+            for item in self.children:
+                item.disabled = True
+            await button_interaction.response.edit_message(view=self)
+            self.stop()
 
         @ui.button(label="50-10", style=ButtonStyle.primary)
         async def pomodoro_50(self, button: ui.Button, button_interaction: discord.Interaction):
             self.choice = (50, 10)
-            await button_interaction.response.send_message("Vous avez choisi le Pomodoro 50-10. Travaillez pendant 50 minutes.", ephemeral=True)
-            self.stop()  # Arrête l'attente pour les choix
+            # Désactiver tous les boutons après le choix
+            for item in self.children:
+                item.disabled = True
+            await button_interaction.response.edit_message(view=self)
+            self.stop()
 
+        async def on_timeout(self):
+            # Désactiver les boutons si l'utilisateur ne répond pas
+            for item in self.children:
+                item.disabled = True
+            try:
+                await self.message.edit(content="Le temps de sélection est écoulé.", view=self)
+            except:
+                pass
+
+    async def start_timer(duration_minutes: int, message: str, interaction: discord.Interaction):
+        remaining_minutes = duration_minutes
+        
+        # Envoyer le message initial
+        timer_message = await interaction.followup.send(
+            f"⏱️ {message}\nTemps restant: {remaining_minutes} minutes",
+            ephemeral=True
+        )
+
+        # Mettre à jour toutes les minutes
+        while remaining_minutes > 0:
+            await asyncio.sleep(60)  # Attendre 1 minute
+            remaining_minutes -= 1
+            
+            if remaining_minutes > 0:
+                try:
+                    await timer_message.edit(
+                        content=f"⏱️ {message}\nTemps restant: {remaining_minutes} minutes"
+                    )
+                except discord.NotFound:
+                    break  # Message supprimé, arrêter le timer
+
+    # Créer et envoyer la vue avec les boutons
     view = PomodoroView()
-    # Afficher les boutons dans le message initial pour éviter l'expiration
-    await interaction.edit_original_response(content="Choisissez votre timer Pomodoro :", view=view)
-    await view.wait()  # Attend la réponse de l'utilisateur
-
+    initial_message = await interaction.response.send_message(
+        "🍅 Choisissez votre timer Pomodoro :",
+        view=view,
+        ephemeral=True
+    )
+    
+    # Attendre le choix de l'utilisateur
+    await view.wait()
+    
     if view.choice is None:
-        return await interaction.followup.send("Vous n'avez pas fait de choix. Veuillez réessayer.", ephemeral=True)
+        await interaction.followup.send(
+            "❌ Vous n'avez pas fait de choix dans le temps imparti.",
+            ephemeral=True
+        )
+        return
 
     work_time, break_time = view.choice
 
-    async def timer(duration, message):
-        for remaining in range(duration, 0, -10):
-            await asyncio.sleep(600)  # 10 minutes
-            await interaction.followup.send(f"{remaining} minutes restantes pour {message}.")
+    # Démarrer la session Pomodoro
+    await interaction.followup.send(
+        f"🎯 Session Pomodoro {work_time}-{break_time} démarrée !",
+        ephemeral=True
+    )
 
-    # Lancer le timer de travail
-    await timer(work_time, "le temps de travail")
-    await interaction.followup.send("Travail terminé ! Prenez une pause.", ephemeral=True)
+    # Phase de travail
+    await start_timer(work_time, "📚 Phase de travail en cours", interaction)
+    await interaction.followup.send("⏰ Temps de travail terminé !", ephemeral=True)
 
-    # Lancer le timer de pause
-    await timer(break_time, "le temps de pause")
-    await interaction.followup.send("Pause terminée ! Reprenez quand vous êtes prêt.", ephemeral=True)
-
+    # Phase de pause
+    await start_timer(break_time, "☕ Phase de pause en cours", interaction)
+    await interaction.followup.send(
+        "✨ Session Pomodoro terminée ! Vous pouvez en démarrer une nouvelle avec /pomodoro",
+        ephemeral=True
+    )
 
 @bot.tree.command(name="citation")
 async def citation(interaction: discord.Interaction):
