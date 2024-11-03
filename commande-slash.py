@@ -4,18 +4,13 @@ import random
 from discord import app_commands
 import asyncio
 from discord import ButtonStyle, ui
-
+import wavelink
+import datetime
 token = "MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9M"
 
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-
-
-import discord
-from discord import ui, ButtonStyle
-import asyncio
-from discord.ext import commands
 
 @bot.tree.command(name="pomodoro", description="Démarrer un timer Pomodoro")
 async def pomodoro(interaction: discord.Interaction):
@@ -134,7 +129,7 @@ async def pomodoro(interaction: discord.Interaction):
         f"🆕 Tapez `/pomodoro` pour une nouvelle session"
     )
 
-@bot.tree.command(name="citation")
+@bot.tree.command(name="citation", description="une Citation Motivante - Inspirante")
 async def citation(interaction: discord.Interaction):
     quotes = [
         "La vie est un mystère qu'il faut vivre, et non un problème à résoudre. - Gandhi",
