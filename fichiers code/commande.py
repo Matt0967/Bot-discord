@@ -1,6 +1,10 @@
 import discord
-from discord.ext import commands 
-token = "MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9M"
+from discord.ext import commands
+import os 
+from dotenv import load_dotenv
+
+load_dotenv()
+token=os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.all()
 
