@@ -4,9 +4,11 @@ import random
 from discord import app_commands
 import asyncio
 from discord import ButtonStyle, ui
-import wavelink
 import datetime
-token = "MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9M"
+import os 
+from dotenv import load_dotenv
+load_dotenv()
+token=os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
