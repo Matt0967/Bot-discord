@@ -50,9 +50,9 @@ async def pomodoro(interaction: discord.Interaction):
         
         # Message initial
         status_message = await interaction.channel.send(
-            f"{'🎯' if is_work else '☕'} **Session {message}**/n"
-            f"⏱️ Durée : {duration_minutes} minutes/n"
-            f"{await create_progress_bar(duration_minutes, duration_minutes)}/n"
+            f"{'🎯' if is_work else '☕'} **Session {message}**\n"
+            f"⏱️ Durée : {duration_minutes} minutes\n"
+            f"{await create_progress_bar(duration_minutes, duration_minutes)}\n"
             f"👤 Session de {interaction.user.mention}"
         )
 
@@ -66,9 +66,9 @@ async def pomodoro(interaction: discord.Interaction):
                 try:
                     progress_bar = await create_progress_bar(remaining_minutes, duration_minutes)
                     await status_message.edit(content=(
-                        f"{'🎯' if is_work else '☕'} **Session {message}**/n"
-                        f"⏱️ Il reste : {remaining_minutes} minutes/n"
-                        f"{progress_bar}/n"
+                        f"{'🎯' if is_work else '☕'} **Session {message}**\n"
+                        f"⏱️ Il reste : {remaining_minutes} minutes\n"
+                        f"{progress_bar}\n"
                         f"👤 Session de {interaction.user.mention}"
                     ))
                 except discord.NotFound:
@@ -77,8 +77,8 @@ async def pomodoro(interaction: discord.Interaction):
         # Message de fin de phase
         try:
             await status_message.edit(content=(
-                f"{'✅' if is_work else '🔔'} **{message.capitalize()} terminé !**/n"
-                f"{'🎯 C\'est l\'heure de la pause!' if is_work else '☕ Fin de la pause!'}/n"
+                f"{'✅' if is_work else '🔔'} **{message.capitalize()} terminé !**\n"
+                f"{'🎯 C\'est l\'heure de la pause!' if is_work else '☕ Fin de la pause!'}\n"
                 f"👤 Session de {interaction.user.mention}"
             ))
         except:
@@ -106,8 +106,8 @@ async def pomodoro(interaction: discord.Interaction):
 
     # Annonce de début de session
     await interaction.channel.send(
-        f"🎯 **Nouvelle session Pomodoro {work_time}-{break_time}**/n"
-        f"👤 {interaction.user.mention} démarre une session !/n"
+        f"🎯 **Nouvelle session Pomodoro {work_time}-{break_time}**\n"
+        f"👤 {interaction.user.mention} démarre une session !\n"
         f"💪 Bon courage !"
     )
 
@@ -116,8 +116,8 @@ async def pomodoro(interaction: discord.Interaction):
 
     # Notification de transition
     await interaction.channel.send(
-        f"⏰ **Transition !**/n"
-        f"👤 {interaction.user.mention}, la phase de travail est terminée./n"
+        f"⏰ **Transition !**\n"
+        f"👤 {interaction.user.mention}, la phase de travail est terminée.\n"
         f"☕ Début de la pause de {break_time} minutes."
     )
 
@@ -126,8 +126,8 @@ async def pomodoro(interaction: discord.Interaction):
 
     # Message de fin de session
     await interaction.channel.send(
-        f"✨ **Session Pomodoro complétée !**/n"
-        f"👏 Bravo {interaction.user.mention} !/n"
+        f"✨ **Session Pomodoro complétée !**\n"
+        f"👏 Bravo {interaction.user.mention} !\n"
         f"🆕 Tapez `/pomodoro` pour une nouvelle session"
     )
 
