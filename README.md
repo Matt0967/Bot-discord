@@ -41,6 +41,13 @@ Pour démarrer le bot, exécutez :
 npm start
 ```
 
+## 🌟 Système de points d'expérience
+
+Le bot inclut désormais un système de points d'expérience. Les utilisateurs peuvent gagner des points d'expérience en envoyant des messages. Voici les commandes disponibles :
+
+- `/exp add <utilisateur> <points>` : Ajouter des points d'expérience à un utilisateur.
+- `/exp check [utilisateur]` : Vérifier les points d'expérience d'un utilisateur. Si aucun utilisateur n'est spécifié, cela vérifiera vos propres points d'expérience.
+
 ## 🤝 Contribution
 
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou à soumettre une pull request.
