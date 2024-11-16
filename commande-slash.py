@@ -189,7 +189,12 @@ async def on_message(message: discord.Message):
         return
     if message.author.id not in user_exp:
         user_exp[message.author.id] = 0
-    user_exp[message.author.id] += 1
+    if "muscu" in message.content.lower():
+        user_exp[message.author.id] += 40
+    elif "coder" in message.content.lower():
+        user_exp[message.author.id] += 20
+    elif "dessin" in message.content.lower():
+        user_exp[message.author.id] += 20
     await bot.process_commands(message)
 
 async def main():
