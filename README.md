@@ -8,6 +8,7 @@ Bienvenue dans le projet de mon bot Discord ! Ce bot est conçu pour aides les p
 - 🎧 un timer pomodoro
 - 🎮 [Fonctionnalité 3]
 - [Ajoutez d'autres fonctionnalités selon les besoins]
+- 🌟 Système de points d'expérience
 
 ## 🚀 Installation
 

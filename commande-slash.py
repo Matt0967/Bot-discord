@@ -13,6 +13,8 @@ token ='MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9M
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+# Dictionary to store user experience points
+user_exp = {}
 
 @bot.tree.command(name="pomodoro", description="Démarrer un timer Pomodoro")
 async def pomodoro(interaction: discord.Interaction):
@@ -153,6 +155,24 @@ async def citation(interaction: discord.Interaction):
     quote = random.choice(quotes)
     await interaction.response.send_message(quote)
 
+@bot.tree.command(name="exp", description="Gérer les points d'expérience")
+async def exp(interaction: discord.Interaction, action: str, user: discord.User = None, points: int = 0):
+    if action == "add":
+        if user is None:
+            await interaction.response.send_message("Veuillez spécifier un utilisateur.")
+            return
+        if user.id not in user_exp:
+            user_exp[user.id] = 0
+        user_exp[user.id] += points
+        await interaction.response.send_message(f"{points} points d'expérience ajoutés à {user.mention}.")
+    elif action == "check":
+        if user is None:
+            user = interaction.user
+        exp_points = user_exp.get(user.id, 0)
+        await interaction.response.send_message(f"{user.mention} a {exp_points} points d'expérience.")
+    else:
+        await interaction.response.send_message("Action non reconnue. Utilisez 'add' ou 'check'.")
+
 @bot.event
 async def on_ready():
     print(f"Connecté en tant que {bot.user}")
@@ -163,6 +183,14 @@ async def on_ready():
     except Exception as e:
         print(f"Erreur lors de la synchronisation des commandes : {e}")
 
+@bot.event
+async def on_message(message: discord.Message):
+    if message.author == bot.user:
+        return
+    if message.author.id not in user_exp:
+        user_exp[message.author.id] = 0
+    user_exp[message.author.id] += 1
+    await bot.process_commands(message)
 
 async def main():
     await bot.start(token)
