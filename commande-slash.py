@@ -166,7 +166,7 @@ async def citation(interaction: discord.Interaction):
 
 
 @bot.tree.command(name="exp", description="Gérer les points d'expérience")
-async def exp(interaction: discord.Interaction, action: str, activity: str = None, user: discord.User = None, points: int = 0):
+async def exp(interaction: discord.Interaction, action: str, activity: str = None, user: discord.User = None,):
     if action == "add":
         if activity in activities_exp:
             points = activities_exp[activity]
