@@ -167,7 +167,7 @@ async def citation(interaction: discord.Interaction):
 
 @bot.tree.command(name="exp", description="Gérer les points d'expérience")
 async def exp(interaction: discord.Interaction, action: str, activity: str = None, user: discord.User = None,):
-    if action == "add":
+    if action == "ajouter des points de CHAD":
         if activity in activities_exp:
             points = activities_exp[activity]
         if user is None:
@@ -182,8 +182,13 @@ async def exp(interaction: discord.Interaction, action: str, activity: str = Non
             user = interaction.user
         exp_points = user_exp.get(user.id, 0)
         await interaction.response.send_message(f"{user.mention} a {exp_points} points d'expérience.")
+    elif action == "reset":
+        if user is None:
+            user = interaction.user
+        user_exp[user.id] = 0
+        await interaction.response.send_message(f"Les points d'expérience de {user.mention} ont été réinitialisés.")
     else:
-        await interaction.response.send_message("Action non reconnue. Utilisez 'add' ou 'check'.")
+        await interaction.response.send_message("Action non reconnue. Utilisez 'add' ou 'check' ou encore 'reset'.")
 
 @bot.event
 async def on_ready():
