@@ -15,6 +15,14 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Dictionary to store user experience points
 user_exp = {}
+activities_exp = {
+    "coding": 30,
+    "muscu": 40,
+    "dessiner": 20,
+    "lire": 15,
+    "langague": 25,
+}
+
 
 @bot.tree.command(name="pomodoro", description="Démarrer un timer Pomodoro")
 async def pomodoro(interaction: discord.Interaction):
@@ -115,6 +123,7 @@ async def pomodoro(interaction: discord.Interaction):
 
     # Timer de travail
     await start_timer(work_time, "travail", interaction, True)
+# Dictionary to store experience points for activities
 
     # Notification de transition
     await interaction.channel.send(
@@ -155,16 +164,19 @@ async def citation(interaction: discord.Interaction):
     quote = random.choice(quotes)
     await interaction.response.send_message(quote)
 
+
 @bot.tree.command(name="exp", description="Gérer les points d'expérience")
-async def exp(interaction: discord.Interaction, action: str, user: discord.User = None, points: int = 0):
+async def exp(interaction: discord.Interaction, action: str, activity: str = None, user: discord.User = None, points: int = 0):
     if action == "add":
+        if activity in activities_exp:
+            points = activities_exp[activity]
         if user is None:
             await interaction.response.send_message("Veuillez spécifier un utilisateur.")
             return
         if user.id not in user_exp:
             user_exp[user.id] = 0
         user_exp[user.id] += points
-        await interaction.response.send_message(f"{points} points d'expérience ajoutés à {user.mention}.")
+        await interaction.response.send_message(f"{points} points d'expérience ajoutés à {user.mention} pour {activity}.")
     elif action == "check":
         if user is None:
             user = interaction.user
