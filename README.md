@@ -45,8 +45,12 @@ npm start
 
 Le bot inclut désormais un système de points d'expérience. Les utilisateurs peuvent gagner des points d'expérience en envoyant des messages. Voici les commandes disponibles :
 
-- `/exp add <utilisateur> <points>` : Ajouter des points d'expérience à un utilisateur.
 - `/exp check [utilisateur]` : Vérifier les points d'expérience d'un utilisateur. Si aucun utilisateur n'est spécifié, cela vérifiera vos propres points d'expérience.
+
+Les points sont attribués automatiquement en fonction des mots-clés suivants :
+- "muscu" : 40 points
+- "coder" : 20 points
+- "dessin" : 20 points
 
 ## 🤝 Contribution
 
