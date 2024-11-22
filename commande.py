@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands 
-token = "MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9M"
+import os
 
 intents = discord.Intents.all()
 
@@ -21,4 +21,5 @@ async def repeter(context, message):
     await context.send(message)
 
 if __name__ == '__main__':
-    bot.run(token=token)
+    token = os.getenv("DISCORD_TOKEN")
+    bot.run(token)

@@ -1,6 +1,7 @@
 import discord 
+import os
 
-token = "MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9M"
+token = os.getenv("DISCORD_TOKEN")
 
 client = discord.Client(intents=discord.Intents.all())
 
@@ -16,4 +17,4 @@ async def on_message(message: discord.Message):
 async def on_message_delete(message: discord.Message):
     await message.channel.send(f"{message.author.name} a supprimé {message.content}") 
 
-client.run(token=token)
+client.run(token)

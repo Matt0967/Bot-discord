@@ -1,8 +1,7 @@
 import discord 
 from discord.ext import commands 
 import random
-
-token = "MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9M"
+import os
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents )
@@ -31,6 +30,7 @@ async def on_ready():
         print(e)
 
 async def main():
+    token = os.getenv("DISCORD_TOKEN")
     await bot.start(token)
 
 if __name__ == '__main__':
