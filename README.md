@@ -6,8 +6,6 @@ Bienvenue dans le projet de mon bot Discord ! Ce bot est conçu pour aides les p
 
 - 🦾 des citation motivante 
 - 🎧 un timer pomodoro
-- 🎮 [Fonctionnalité 3]
-- [Ajoutez d'autres fonctionnalités selon les besoins]
 - 🌟 Système de points d'expérience
 
 ## 🚀 Installation
@@ -45,14 +43,10 @@ npm start
 
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou à soumettre une pull request.
 
-## 📄 Licence
-
-Ce projet est sous licence [votre licence, par exemple MIT]. Voir le fichier `LICENSE` pour plus de détails.
-
 ## 📞 Contact
 
-Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter à [perezmattheu1@gmail.com].
+Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter à perezmattheu1@gmail.com
 
 ---
 
-Créé avec ❤️ par [Perez Matthieu]
+Créé avec ❤️ par Perez Matthieu
