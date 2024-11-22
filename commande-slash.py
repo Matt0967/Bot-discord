@@ -8,7 +8,8 @@ import datetime
 import os 
 from dotenv import load_dotenv
 
-token ='MTI4NzA4ODYxODM2MzY4Njk3Mg.GJHyfW.7oGzMiBeJG5vHChVAPEksB2Nx3JvACqAnrwp9M'
+load_dotenv()
+token = os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
