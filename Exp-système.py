@@ -9,19 +9,22 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-token = os.getenv("DISCORD_TOKEN")
+token = os.getenv('DISCORD_TOKEN')
 
 intents = discord.Intents.default()
+intents.members = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Dictionary to store user experience points
 user_exp = {}
 activities_exp = {
-    "coding": 30,
-    "muscu": 40,
+    "coding Sessions": 60,
+    "musculation": 40,
     "dessiner": 20,
-    "lire": 15,
-    "langague": 25,
+    "lire un livre": 100,
+    "apprendre une langue": 25,
+    "2 h de Pomodoro": 50,
+    "4 h de pomodoro": 100,
 }
 
 class ActivitySelect(ui.Select):
@@ -75,10 +78,45 @@ class ExpView(ui.View):
         user_exp[self.user.id] = 0
         await interaction.response.send_message(f"Les points d'expérience de {self.user.mention} ont été réinitialisés.", ephemeral=True)
 
+class UserSelect(ui.Select):
+    def __init__(self, members: list[discord.Member], requester: discord.User):
+        options = [
+            discord.SelectOption(label=member.display_name, description=f"ID: {member.id}", value=str(member.id))
+            for member in members
+        ]
+        super().__init__(placeholder="Choisissez un utilisateur...", min_values=1, max_values=1, options=options)
+        self.requester = requester
+
+    async def callback(self, interaction: discord.Interaction):
+        if interaction.user != self.requester:
+            await interaction.response.send_message("Vous ne pouvez pas utiliser ce menu.", ephemeral=True)
+            return
+        member_id = int(self.values[0])
+        guild = interaction.guild
+        member = guild.get_member(member_id)
+        if member is None:
+            await interaction.response.send_message("Utilisateur non trouvé.", ephemeral=True)
+            return
+        view = ExpView(member)
+        await interaction.response.edit_message(content=f"Gérer les points d'expérience pour {member.mention} :", view=view)
+
+class UserSelectView(ui.View):
+    def __init__(self, members: list[discord.Member], requester: discord.User):
+        super().__init__(timeout=60)
+        self.add_item(UserSelect(members, requester))
+
 @bot.tree.command(name="exp", description="Gérer les points d'expérience")
 async def exp(interaction: discord.Interaction):
-    view = ExpView(interaction.user)
-    await interaction.response.send_message("Que souhaitez-vous faire ?", view=view, ephemeral=True)
+    guild = interaction.guild
+    if guild is None:
+        await interaction.response.send_message("Cette commande doit être utilisée dans un serveur.", ephemeral=True)
+        return
+    members = [member for member in guild.members if not member.bot][:25]
+    if not members:
+        await interaction.response.send_message("Aucun utilisateur disponible pour la sélection.", ephemeral=True)
+        return
+    view = UserSelectView(members, interaction.user)
+    await interaction.response.send_message("Sélectionnez un utilisateur pour gérer ses points d’expérience :", view=view, ephemeral=True)
 
 @bot.event
 async def on_ready():
@@ -97,7 +135,7 @@ async def on_message(message: discord.Message):
     if message.author.id not in user_exp:
         user_exp[message.author.id] = 0
     user_exp[message.author.id] += 1
-    await bot.process_commands(message)
+    await bot.process_commands(message) 
 
 async def main():
     await bot.start(token)
