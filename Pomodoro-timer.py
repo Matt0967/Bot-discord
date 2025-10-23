@@ -89,7 +89,8 @@ async def pomodoro(interaction: discord.Interaction):
         try:
             await status_message.edit(content=(
                 f"{'✅' if is_work else '🔔'} **{message.capitalize()} terminé !**\n"
-                f"{'🎯 C\'est l\'heure de la pause!' if is_work else '☕ Fin de la pause!'}\n"
+                f"""{"🎯 C'est l'heure de la pause!" if is_work else "☕ Fin de la pause!"}
+"""
                 f"👤 Session de {interaction.user.mention}"
             ))
         except:
