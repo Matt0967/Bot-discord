@@ -13,7 +13,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 # Charger les extensions
 @bot.event
 async def on_ready():
-    for extension in ['commande-slash']:
+    for extension in ['Pomodoro-timer, EXP système,Citation ']:
         try:
             await bot.load_extension(f'cogs.{extension}')
         except Exception as e:
