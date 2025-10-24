@@ -13,6 +13,11 @@ token = os.getenv('DISCORD_TOKEN')
 
 ADMIN_IDS = [802925075535495177]  # Remplacer par ton ID Discord
 
+intents = discord.Intents.default()
+intents.members = True
+intents.guilds = True
+bot = commands.Bot(command_prefix="!", intents=intents)
+
 # Dictionary to store user experience points
 user_exp = {}
 activities_exp = {
@@ -106,22 +111,41 @@ class ExpView(ui.View):
         user_exp[self.user.id] = 0
         await interaction.response.send_message(f"Les points d'expérience de {self.user.mention} ont été réinitialisés.", ephemeral=True)
 
-class ExpSystem(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
+@bot.tree.command(name="exp", description="Gérer les points d'expérience")
+async def exp(interaction: discord.Interaction):
+    guild = interaction.guild
+    if guild is None:
+        await interaction.response.send_message("Cette commande doit être utilisée dans un serveur.", ephemeral=True)
+        return
+    members = [member for member in guild.members if not member.bot][:25]
+    if not members:
+        await interaction.response.send_message("Aucun utilisateur disponible pour la sélection.", ephemeral=True)
+        return
+    view = UserSelectView(members, interaction.user)
+    await interaction.response.send_message("Sélectionnez un utilisateur pour gérer ses points d’expérience :", view=view, ephemeral=True)
 
-    @app_commands.command(name="exp", description="Gérer les points d'expérience")
-    async def exp(self, interaction: discord.Interaction):
-        guild = interaction.guild
-        if guild is None:
-            await interaction.response.send_message("Cette commande doit être utilisée dans un serveur.", ephemeral=True)
-            return
-        members = [member for member in guild.members if not member.bot][:25]
-        if not members:
-            await interaction.response.send_message("Aucun utilisateur disponible pour la sélection.", ephemeral=True)
-            return
-        view = UserSelectView(members, interaction.user)
-        await interaction.response.send_message("Sélectionnez un utilisateur pour gérer ses points d’expérience :", view=view, ephemeral=True)
+@bot.event
+async def on_ready():
+    print(f"Connecté en tant que {bot.user}")
+    try:
+        
+        synced = await bot.tree.sync()
+        print(f"{len(synced)} commandes ont été synchronisées")
+    except Exception as e:
+        print(f"Erreur lors de la synchronisation des commandes : {e}")
 
-async def setup(bot):
-    await bot.add_cog(ExpSystem(bot))
+@bot.event
+async def on_message(message: discord.Message):
+    if message.author == bot.user:
+        return
+    if message.author.id not in user_exp:
+        user_exp[message.author.id] = 0
+    user_exp[message.author.id] += 1
+    await bot.process_commands(message) 
+
+async def main():
+    await bot.start(token)
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
