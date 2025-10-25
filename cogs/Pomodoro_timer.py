@@ -12,7 +12,6 @@ class Pomodoro(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
     @app_commands.command(name="pomodoro", description="Démarrer un timer Pomodoro")
     async def pomodoro(self, interaction: discord.Interaction):
         class PomodoroView(ui.View):
@@ -86,7 +85,7 @@ class Pomodoro(commands.Cog):
 
         # Interface initiale
         view = PomodoroView()
-        initial_response = await interaction.response.send_message(
+        await interaction.response.send_message(
             "🍅 Choisissez votre timer Pomodoro :",
             view=view,
             ephemeral=True
@@ -113,7 +112,6 @@ class Pomodoro(commands.Cog):
 
         # Timer de travail
         await start_timer(work_time, "travail", interaction, True)
-    # Dictionary to store experience points for activities
 
         # Notification de transition
         await interaction.channel.send(
