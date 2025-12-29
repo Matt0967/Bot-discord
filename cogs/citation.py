@@ -24,7 +24,37 @@ class Citation(commands.Cog):
             "Le succès consiste à aller d'échec en échec sans perdre son enthousiasme – Winston Churchill",
             "Vous ne pouvez pas changer votre passé, mais vous pouvez ruiner le présent en vous inquiétant de l'avenir – Anonyme",
             "Les difficultés préparent les gens ordinaires à un destin extraordinaire – C.S. Lewis",
-            "Le courage n'est pas l'absence de peur, mais la capacité de vaincre ce qui fait peur – Nelson Mandela",
+            "Le courage n'est pas l'absence de peur, mais la capacité de vaincre ce qui fait peur – Nelson Mandela"
+            "Ils ne savaient pas que c'était impossible, alors ils l'ont fait – Mark Twain",
+            "La meilleure façon de prédire l’avenir, c’est de le créer – Peter Drucker",
+            "La discipline est le pont entre les objectifs et les accomplissements – Jim Rohn",
+            "Ce n’est pas parce que les choses sont difficiles que nous n’osons pas, c’est parce que nous n’osons pas qu’elles sont difficiles – Sénèque",
+            "L’échec est simplement l’opportunité de recommencer, cette fois de manière plus intelligente – Henry Ford",
+            "Celui qui a un pourquoi peut supporter presque n’importe quel comment – Friedrich Nietzsche",
+            "On ne se découvre qu’en se confrontant à l’obstacle – Antoine de Saint-Exupéry",
+            "La connaissance s’acquiert par l’expérience, tout le reste n’est que de l’information – Albert Einstein",
+            "La persévérance est très souvent la différence entre l’échec et le succès – Anonyme",
+            "Rien de grand ne s’est accompli sans passion – Georg Wilhelm Friedrich Hegel",
+            "Ce que tu fais chaque jour compte plus que ce que tu fais de temps en temps – Gretchen Rubin",
+            "Le progrès naît de la curiosité disciplinée – Anonyme",
+            "La liberté commence là où s’arrête la peur de l’erreur – Anonyme",
+            "Travailler dur pour quelque chose que l’on aime s’appelle la passion – Simon Sinek",
+            "La constance bat le talent quand le talent manque de constance – Anonyme"
+            "On ne progresse pas en cherchant le confort, mais en acceptant l’inconfort utile – Anonyme",
+            "La différence entre ceux qui avancent et ceux qui stagnent, c’est la tolérance à l’erreur – Anonyme",
+            "Chaque compétence fut un jour une incompréhension persistante – Anonyme",
+            "Le talent ouvre des portes, le travail les maintient ouvertes – Anonyme",
+            "Rien n’est plus dangereux qu’une idée brillante mal comprise – Anonyme",
+            "Apprendre à penser est plus important qu’apprendre à répondre – Anonyme",
+            "La patience appliquée quotidiennement devient une force – Anonyme",
+            "Ce n’est pas l’intensité d’un jour qui change une vie, mais la régularité – Anonyme",
+            "L’échec n’est pas une fin, c’est un retour d’information – Anonyme",
+            "Celui qui avance lentement mais sans s’arrêter dépasse celui qui hésite – Anonyme",
+            "Le doute est sain, l’inaction prolongée ne l’est pas – Anonyme",
+            "Comprendre prend du temps, abandonner prend une seconde – Anonyme",
+            "La curiosité bien dirigée devient une compétence – Anonyme",
+            "On ne maîtrise pas un sujet, on s’en rapproche indéfiniment – Anonyme",
+            "Le progrès commence quand on accepte de ne pas savoir – Anonyme"
         ]
         quote = random.choice(quotes)
         await interaction.response.send_message(quote)

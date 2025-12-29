@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 
-ADMIN_IDS = [802925075535495177]  # Remplacer par ton ID Discord
+ADMIN_IDS = [ADMIN_IDS]  # Remplacer par ton ID Discord
 
 # Dictionary to store user experience points
 user_exp = {}
