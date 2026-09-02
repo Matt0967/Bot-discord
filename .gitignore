@@ -1,4 +1,20 @@
-# .gitignore
-
-# Ignore the .env file
+# Secrets
 .env
+.env.local
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# OS / éditeurs
+.DS_Store
+.idea/
+.vscode/
+data/
